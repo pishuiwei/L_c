@@ -1,0 +1,672 @@
+
+## c语言基础
+
++ include 指令
++ define 定义常量
++ 函数声明
+    int functionName(parameterType name, ...);
++ 定义变量
+        signed 有符号，默认
+        unsigned 无符号
+## 关键字
+
+
+## 数据类型
+        图2.1
+
+## 变量的存储类别
+
+### auto变量(默认)
+    > auto关键字就是修饰一个局部变量为自动的，这意味着每次执行到定义改变量的时候，
+    都会产生一个新的变量，并且对其重新进行初始化。
+
+    + 示列：
+        void AddOne() {
+            auto int i = 1;
+            i = i + 1;
+            printf("%d\n", i);
+        }
+        int main()  {
+            printf("第一此调用:");
+            AddOne();   // 2
+            printf("第二此调用:");
+            AddOne();   // 2
+            return 0;
+        }
+
+### static变量
+>static变量为静态变量，将函数的内部和外部变量声明成static变量的意义是不一样的,
+不过对于局部变量来说，static变量是和auto变量相对而言的。尽量两者的作用域都是仅
+限于声明变量的函数之中，但是在语句执行期间，static变量将始终保持它的值，并且初始化
+操作只在第一次执行时起作用。在随后的运行过程中，变量将保持语句上一次执行时的值。
+
++ void AddOne() {
+      static int i = 1;
+      i = i + 1;
+      printf("%d\n", i);
+  }
+  int main()  {
+      printf("第一此调用:");
+      AddOne();
+      printf("第二此调用:");
+      AddOne();
+      return 0;
+      // 结果
+      // 第一此调用:2
+      // 第二此调用:3
+  }
+
+### register
+>register变量称为寄存器存储变量
+
+### extern
+> extern变量称为外部存储变量，extern声明了程序中将要用定义在其他文件中的变量。
+
+文件1中定义i：
+    #include <stdio.h>
+
+    int i = 100;
+
+文件2中使用i：
+#include <stdio.h>
+
+    int main()  {
+        extern int i;
+        printf("%d\n", i);
+        return 0;
+    }
+
+
+## 常用的输入、输出函数
+
+### 输出函数
+
+    int	putchar (int) 输出指定字符串
+
+    int puts(char *str) 输出指定字符串
+
+    int	printf (const char *__restrict, ...) 格式输出函数
+        printf(格式控制，输出列表)
+
+
+### 输入函数
+   int	getchar (void) 字符输入函数
+        int main()  {
+            char c;
+            c = getchar();
+            putchar(c);
+            return 0;
+        }
+
+    char *  gets (char *); 字符串输入函数
+
+    int	scanf (const char *__restrict, ...) 格式输入函数
+
+
+
+#### 格式输出函数格式字符表
+    108p
+
+## goto语句
+> goto语句为无条件转向语句，可以使程序立即跳转到函数内部的任意一条可执行语句。
+
+    #include <stdio.h>
+
+    int main()  {
+        goto show;
+
+        printf("Hello World!\n");
+
+        show:
+            printf("AAA\n");
+
+        printf("BBB\n");
+
+        // 输出结果AAA,  printf("Hello World!\n");不会执行
+    }
+
+## 数组
+### 一维数组的定义与初始化
+ 类型说明 数组标识符[常量表达式]
+
+ int i[5];
+ int i[5] = {1,2,3,4,5};
+ int i[] = {1,2,3,4,5};
+
+ ##
+ char* array[1];
+ array[0] = "hello";
+ printf(array[0]);
+
+### 二维数组的定义与初始化
+    数据类型 数组名[常量表达式1][常量表达式2]
+    常量表达式1: 表示行
+    常量表达式2:表示列
+    int i[10][2];
+
+### 字符串处理函数
+
+#### strcpy函数
+>该函数可以用于复制特定长度的字符串到另一个字符串中，语法格式：
+strcpy(目的字符数组名， 源字符数组名);
+
+#### strcat函数
+> 将一个字符串连接到另一个字符串，使其组合成一个新的字符串。
+strcat(目的字符数组名，源字符数组名);
+
+#### strcmp函数
+> 将一个字符串与另一个字符串从首字母开始，按照ASCII码的顺序进行逐个比较。
+strcmp(字符数组名1， 字符数组名2)
+如果1 = 2， 返回0，
+1 > 2,返回正数
+1 < 2,返回负数
+
+#### strupr函数
+>将字符串中的小写字母转化为大写字母，其他字母不变。
+strupr(字符串)
+
+#### strlwr函数
+> 将字符串的大写字母转化为小写字母，其他字母不变。
+strlwr(字符串)
+
+#### strlen函数
+> 获取字符串长度
+strlen(字符串)
+
+####
+
+## 处理时间
+    #include <stdio.h>
+    #include <time.h>
+
+    int main()  {
+
+        struct tm *sysTime;
+        time_t nowTime;
+        time(&nowTime);
+
+        sysTime = localtime(&nowTime);
+        printf("%d", sysTime->tm_hour);
+
+    }
+
+## 函数
+    内部函数 static resultType functionName();
+    只能在当前文件中调用
+
+    外部函数 extern resultType functionName();
+    可以被其他源文件调用的函数，函数默认定义为外部函数
+
+     函数指针
+
+     指针函数
+
+
+## 指针
+### 地址与指针
+    + 地址：地址就是内存区中对每个字符的编号
+
+    + 由于通过地址能返回指定的内存单元，可以说地址“指向”改内存单元。地址可以形象地称为指针，
+    意思是通过指针能找到内存单元。
+
+    + * 是一个单目运算符，叫做指针运算符，作用是返回指定内存地址中的变量值
+    + & 是一个单目运算符，叫做地址运算符，作用是返回指定变量的内存地址
+        int main()  {
+
+            int i = 100;
+            int *x ;
+            x = &i;
+            // 等同于 int *x = &i;
+
+            printf("%d\n", i);
+
+            printf("%d\n", x);
+            printf("%d\n", *x);
+
+        }
+
+    + &* 与  *&
+          int *p;
+          p = &a;
+        “&”与“*”运算符的优先级别是相同的，按照自右向左的方向结合。
+        因此“&*p”先进行“*”运算，“*p”相当于变量a，在进行“&”运算，“&*p”就相当于取变量a的地址；
+        “*&a”先进行“&”运算，“&a”就是去变量a的地址，然后执行“*”运算，“*&a”就相当于取变量a所在的地址的值。
+
+        “&*”应用示列：
+        int main()  {
+
+          long i = 1;
+          long *p;
+          p = &i;
+
+          printf("the result1 is:%d\n", &*p); // 输出变量i的地址
+          printf("the result2 is:%d\n", &i); // 输出变量i的地址
+
+        }
+
+        “*&”应用示列：
+        int main()  {
+
+          long i = 1;
+          long *p;
+          p = &i;
+
+          printf("the result1 is:%d\n", *&i); // 输出变量i的值
+          printf("the result2 is:%d\n", i); // 输出变量i的值
+          printf("the result2 is:%d\n", *p); // 输出变量i的值
+
+        }
+
+        + 指针的++--是内存地址的++--
+
+        + 一维数组与指针
+            int *p, a[10];
+            p = a;
+            或者
+            p = &a[0];
+
+        + 字符与指针
+            char *string = "hello world";
+
+         + 字符串数组
+            char cs[5][20] = {
+                "China",
+                "English"
+            }
+
+          + 指向指针的指针
+          类型标识 **指针变量名
+
+          + 指针变量做函数参数
+            int p(int *p);
+
+           + 返回指针值的函数
+           指针变量也可以指向一个函数。一个函数在编译时被分配一个入口地址，该入口地址就称为函数指针。
+           可以用一个指针变量指向函数，然后通过该指针变量调用此函数。
+
+           类型名 *函数名(列表参数)
+
+
+
+## 常用函数
+    int asb(int i)          求整型绝对值
+    long labs(long n)       求长整型的绝对值
+    double fabs(double x)   求浮点型的绝对值
+    double sin(double x)    正弦函数
+    double cos(double x)    余弦函数
+    double tan(double x)    正切函数
+
+    int isalpha(int ch)     检查字母，如果参数(ch)是字母表中的字母，则返回非0值，要包含头文件ctype.h
+    int isdigit(int ch)     检查数字，如果ch是数字，函数返回非0值，要包含头文件ctype.h
+    int isalnum(int ch)     检查字母或者数字，如果参数是字符或数字，则函数返回非0值
+
+
+    sizeof 可以获得数据类型或变量在内存中所占的字节数
+
+
+## 结构体
+### 一般形式
+    struct 结构体名 {
+        成员列表
+    };
+
+### 在声明结构体时，同时定义变量
+    struct 结构体名 {
+        成员列表
+    }变量名列表;
+
+### 直接定义结构体类型变量
+    struct{
+        成员列表
+    }变量名列表;
+
+### 结构体变量定义
+    struct 结构体名称 变量名;
+
+### 结构体变量的引用
+    结构变量名.成员名
+
+### 结构体类型的初始化
+        struct{
+            成员列表
+        }变量名列表={"成员",...};
+
+## 结构体数组
+### 定义结构体数组
+       struct 结构体名{
+            成员列表
+       }数组名;
+
+### 初始化结构体数组
+      struct 结构体名{
+            成员列表
+       }数组名={初始值列表};
+
+## 结构体指针
+### 指向结构体变量的指针
+    struct 结构体类型 *指针名;
+
+### 指向结构体数组的指针
+    struct 结构体名* 指针名 = 结构他数组变量;
+
+### 结构体作为参数
+    int display(struct 结构体名 结构体变量名);
+
+# 共用体
+### union 共用体和结构体的区别在于：结构体定义了一个由多个数据成员组成的特殊类型，而公用体定义了一块为所有数据成员共享的内存。
+
+### 共用体也称为联合体，它使几种不同类型的变量存放到同一段内存单元中。所以共用体在同一时刻只能有一个值，它属于某一个数据成员。由于所有成员位于同一块内存，因此共用体的大小就等于最大成员大小。
+
+# 枚举类型
+## 利用关键字enum可以声明枚举类型，这也是一种数据类型。使用该类型可以定义枚举类型变量，一个枚举变量包含一组相关的标识符，其中每个标识符都对应一个整数值
+## 定义枚举类型
+    enum Colors(Red,Green,Blue); // 0开始
+    enum Colors(Red=1,Green,Blue); // 1开始
+    enum Colors(Red=1,Green,Blue) color; // 1开始
+
+
+# 位段
+## 位段类型是一种特殊的结构类型，其所有成员的长度均是以二进制位单位定义的，结构中的成员被称为位段。
+## 一般形式
+    结构 结构名{
+        类型 变量名1: 长度;
+        类型 变量名2: 长度;
+            ...
+        类型 变量名2: 长度;
+    }
+
+    struct statuc{
+        unsigned a: 1;
+    }
+
+## 预处理
+## 宏
+## 不带参数的宏定义
+    #define 宏名 字符串
+## 带参数的宏定义
+    #define 宏名(参数表) 表达式
+
+    #define MIX(a,b) (a*b+b)
+    printf("%d",MIX(1,2)); //计算(a*b+b)
+
+##  #undef
+    #undef 宏名 终止宏定义的作用域(删除之前定义的宏)
+
+##
+    #include 引入其他问津
+
+## 条件编译(类似if)
+    + #if #endif
+
+    #if 常数表达式
+        语句段
+    #endif
+
+    + #if #else #endif(与if else相似)
+
+    + #if #elif #endif(与if else相似)
+
+    + #ifdef #endif 用于判断宏是否定义，定义则编译
+        #ifdef  宏名
+            语句段
+        #endid
+        或
+        #ifdef  宏名
+            语句段1
+        #else
+            语句段2
+        #endid
+
+    + #ifndef #endif 未定义则编译
+
+##
+    #line 命令改变_LINE_与_FILE_的内容，_LINE_存放当前编译行的行号，_FILE_存放当前编译的文件名。
+    #line 整数[文件名]:
+
+     _LINE_  _FILE_
+##
+    #pargam
+    13.3.5 #pragma 命令
+    视類讲解：光盘\TM\lxU3Wpragma命令.exe
+    1 • #pragma 命令
+    #pragma命令的作用是设定编译器的状态，或者指示编译器完成一些特定的动作。
+    #pragma指令的一般形式如下：
+    #pragma 参致
+    参数可分为以下几种：
+    0 message参数，能够在编译信息输出窗口中输出相应的信息。
+    0 code_Seg参数，设置程序中函数代码存放的代码段。
+    0 once参数，保证头文件被编译一次，
+    2.预定义宏名
+    ANSI标准说明了 5个预定义宏替换名，分别介绍如下。
+    0 _LINE_：其含义是当前被编译代码的行号。
+    0 _FILE_:其含义是当前源程序的文件名称。
+    0 _DATE_：其含义是当前源程序的创建曰期。
+    0 _TIME_：其含义是当前源程序的创建时间。
+    0 __STDC_：其含义是用来判断当前编译器是否为标准C,若其值为1则表示符合标准C,否 则不是标准C。
+    如果编译不是标准的，则可能仅支持以上宏名中的几个，或根本不支持。编译程序有时还提供其 他预定义的宏名。
+
+
+    _STDC_  _DATE_ _TIME_
+
+## 文件
+### 文件的打卡
+    FILE *fp = fopen(文件路径, 使用文件的方式);
+
+    使用文件的方式:
+    表14.1所示。
+    表14.1使用文件方式
+    文件使用方式
+    含 义
+
+    r （只读）
+    打开一个文本文件，只允许读数据
+
+    w （只写）
+    打开或建立一个文本文件，只允许写数据
+
+    a （追加）
+    打开一个文本文件，并在文件末尾写数据
+
+    rb （只读）
+    打幵一个二进制文件，只允许读数据
+
+    wb （只写）
+    打开或建立一个二进制文件，只允许写数据
+
+    ab （追加）
+    打开一个二进制文件，并在文件末尾写数据
+
+    r+ （读写〉
+    打开一个文本文件，允许读和写
+
+    W+ （读写）
+    打开或建立一个文本文件，允许读写
+
+
+
+    续表
+
+    文件使用方式
+    含 义
+
+    a+ （读写〉
+    打开一个文本文件，允许读，或在文件末追加数据
+
+    rb+ （读写）
+    打开一个二进制文件，允许读和写
+
+    wb+ （读写）
+    打开或建立一个二进制文件，允许读和写
+
+    ab+ （读写）
+    打开一个二进制文件，允许读，或在文件末追加数据
+
+### 文件的关闭
+    fclose(文件指针) 关闭文件
+
+### 文件的读写
+#### 写文件
+    ch=fputc(ch,fp) 用于把一个字符写入文件，其中ch代表一个字符，fp是文件指针
+    fputs("字符串",文件指针) process.h 向文件中写入字符串
+    fprintf(文件类型指针,格式字符串,输出列表) 把指定格式的字符串输入到指定文件
+    fread(buffer,size,count,fp) 从fp所指的文件中读入count次，每次读取size字节，读入的信息存在buffer地址
+
+#### 读文件
+    ch=fgetc(fp) 如果文件读完会返回EOF(ch == EOF)
+    fgets(字符数组名, n, 文件指针) 从文件中读出字符串，n表示所得到的字符串中字符的个数
+    fscanf(文件类型指针,格式字符串,输出字符串) 把指定格式的字符串从指定文件输出
+    fwrite(buffer,size,count,fp) 将buffer地址开始的信息输出count次，每次写size字节到fp所指的文件中。
+
+#### 文件的定位
+    fseek(文件类型指针，位移量，起始点) 移动文件内部位置指针
+    rewind(文件类型指针) 使位置指针重新返回文件的开头，该函数没有返回值
+    ftell(文件类型指针) 得到流式文件中当前位置，用相对于文件开头的位移量来表示。当ftell返回值为-1L,表示出错。
+
+## 存储管理
+#### 内存
+## 内存组织方式
+> 开发人员将程序编写完成之后，程序要先装载到计算机的内核或者半导体内存中，再运行程序。程序被组织成4个逻辑段：
++ 可执行代码
++ 静态数据
+ > 可执行代码和静态数据存储在固定的内存位置
++ 动态数据(堆)
+程序请求动态分配的内存来自内存池，也就是上面所列举的堆。
++栈
+局部数据对象、函数的参数以及调用函数和被调用函数的联系放在称为栈的内存池中
+
+## 堆与栈
+>通过内存组织方式可以看到，堆用来存放动态分配存储空间，而栈用来存放局部数据对象、函数的参数以及调用函数和被调用函数的联系。
+
+### 堆
+>在内存的全局存储空间当中，用于程序动态分配和释放的内存块称为自由存储空间，通常也称之为堆。
+>在c语言中，是用malloc函数和free函数来从堆中动态分配和释放存储。
+
+### 栈
+>程序不会处理堆那样在栈中显示地分配内存。当程序调用函数和声明局部变量时，系统将自动分配内存。
+>栈是一个后进先出的压入弹出式的数据结构。
+
+## 动态管理
+### malloc函数(stdlib.h)
+	void *malloc(unsigned int size) 在内存中动态地分配一块size大小的内存空间。malloc函数会返回一个指针，该指针指向分配的内存空间，如果出现错误则返回NILL
+
+#### calloc函数(stdlib.h)
+	void *calloc(unsigned n, unsigned size) 在内存中动态分配n个长度为size的连续内存空间数组。calloc函数会返回一个指针，该指针指向动态分配的连续内存空间地址。当分配空间错误时，返回NULL。
+
+### realloc函数(stdlib.h)
+	 void *realloc(void *ptr, size_t size);
+	 改变ptr指针指向的空间大小为size大小。设定的size大小可以是任意的，也就是说既可以比原来的数值大，也可以比原来的数值小。返回值是一个指向新地址的指针，如果出现错误则返回NULL。
+
+### free函数
+	void free(void *ptr) 使用指针ptr指向的内存区，使部分内存区能被其他变量使用。ptr是最近一次调用calloc或malloc函数时返回的值。
+
+## 内存丢失
+
+# 网络套
+# 网络套接字编程
+## TCP
+	typedef struct HeadTCP
+
+## IP
+	typedef struct HeadP
+
+## ICMP
+	typedef struct HeadICMP
+
+## DUP
+	typedef struct HeadUDP
+
+## 套接字概述
+>套接字是网络通信的基石，是网络通信的基本构件，最初是由加利福尼亚大学Berkeley分校为UNIX开发的网络通信编程接口。
+为了在windows操作系统上使用套接字，20世纪90年代初，微软和第三方厂商共同制定了一套标准，即Windows Socket规范，
+简称WinSock。
+>所谓套接字，实际上是一个指向传输提供者的句柄。在WinSock中，就是通过操作该句柄来实现网络通信和管理的。根据性质和作用的不同，
+套接字可以分为3种，分别为原始套接字、流式套接字、和数据包套接字。
+
+### 原始套接字
+>原始套接字是在WinSock2规范中提出的，它能够使程序开发人员对底层的网络传输机制进行控制，在原始套接字下接收的数据中包含IP头。
+
+### 流式套接字
+>流式套接字提供双向、有序、可靠的数据传输服务，该类型套接字在通信前，需要双方建立连接。大家熟悉的TCP协议采用的就是流式套机字。
+
+### 数据包套接字
+>与流式套接字对应的是数据包套接字，数据包套接字提供双向的数据流，但是它不能保证数据传输的可靠性、有序和无重复性。UDP协议采用的就是数据包套接字。
+
+
+
+## 套接字函数
+### WSAStartup函数
+	int WSAStartup(WORD wVersionRequested, LPWSADATA IpWSAData) 初始化套接字库
+	WSAStartup函数初始化化WS2_32.dll动态链接库。在使用套接字函数之前，一定要初始化WS2_32.dll动态链接库。
+
+### socket函数
+	SOCKET socket(int af, int type, int protocol) 创建一个套接字
+
+### bind函数
+	int bind(SOCKET s, const struct sockaddr FAR* name, int namelen) 将套接字绑定到指定的端口和地址上
+
+### listen函数
+	int listen(SOCKET s,int) 将套接字设置为监听模式。对于流式套接字，必须处于监听模式才能够接收客户端套接字的连接。
+
+### accpet函数
+	SOCKET accept(SOCKET s,struct sockaddr FAR*, int FAR* addrlen)接受客户端的连接。在流式套接字中，只有在套接字处于监听状态，才能接受客户端的连接。
+
+### closesocket函数
+	int closesocket(SOCKET s) 关闭套接字
+
+### connect函数
+	int connect(SOCKET s, const struct sockaddr FAR* name, int namelen) 发送一条连接请求
+
+### htons函数
+	u_short htons(u_short hostshort) 将一个16位的无符号短整型数据由主机排列方式转换为网络排列方法。
+
+### htonl函数
+	u_long htonl(u_long hostlong) 将一个无符号长整型数据由主机排列方式转换为网络排列方式
+
+### int_add函数
+	unsigned long inet_addr(const char FAR* cp) 将一个由字符串表示的地址转换为32位的无符号长整型数据。
+
+### recv函数
+	int recv(SOCKET s, char FAR* buf, int len, int flags) 从面向连接的套接字中接收数据
+
+### send函数
+	int send(SOCKET s,const char FAR* buf, int len, int flags) 在面向连接方式的套接字间发送数据
+
+### recvfrom函数
+	int recvfrom(SOCKET s, char FAR* buf, int len, int flags, struct sockaddr FAR* from, int FAR* fromlen)用于接收一个数据报信息并保存源地址
+
+### sendto函数
+	int sendto(SOCKET s, const char FAR* buf, int len, int flags, const struct sockaddr FAR* to, int tolen)向一个特定的目的方发送数据
+
+### WSACleanup函数
+	int WSACleanup(void) 释放为Ws2_32.dll动态链接库初始化时分配的资源
+
+### const 限定符
+    用于限定一个变量为只读
+
+### typedef 为类型取一个新的名字
+    typedef unsigned char BYTE;
+    在这个类型定义之后，标识符 BYTE 可作为类型 unsigned char 的缩写，例如：
+    BYTE  b1, b2;
+    也可以使用 typedef 来为用户自定义的数据类型取一个新的名字
+
+### C错误处理 http://www.runoob.com/cprogramming/c-error-handling.html
+
+### ctype.h
+
+
+### int main( int argc, char *argv[] )
+执行程序时，可以从命令行传值给 C 程序。这些值被称为命令行参数，它们对程序很重要，特别是当您想从外部控制程序，而不是在代码内对这些值进行硬编码时，就显得尤为重要了。
+
+命令行参数是使用 main() 函数参数来处理的，其中，argc 是指传入参数的个数，argv[] 是一个指针数组，指向传递给程序的每个参数。
+
+应当指出的是，argv[0] 存储程序的名称，argv[1] 是一个指向第一个命令行参数的指针，*argv[n] 是最后一个参数。如果没有提供任何参数，argc 将为 1，否则，如果传递了一个参数，argc 将被设置为 2。
+
+
+
+
+
+
+
+
+
+

@@ -90,10 +90,12 @@
     fgetc
     fputs
     fgets
+
     fprintfb
     fscanf
     fraed
     fwirte
+
     fseek
     rewind
     ftell
